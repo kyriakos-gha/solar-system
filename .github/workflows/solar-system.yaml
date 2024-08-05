@@ -97,3 +97,14 @@ jobs:
           with:
             username: ${{ vars.DOCKERHUB_USERNAME }}
             password: ${{ secrets.DOCKERHUB_TOKEN}}
+
+        - name: Check docker creds
+          run: |
+            ls -ld ./.docker && cat ./.docker/config.json
+
+        # - name: Docker Build for Testing
+        #   uses: docker/build-push-actions@v6.5.0
+        #   with:
+        #     context: .
+        #     push: false
+        #     tags: ${{ vars.DOCKERHUB_USERNAME }}/solar-system:${{ github.sha }}
