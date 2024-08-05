@@ -18,7 +18,7 @@ jobs:
         strategy:
           matrix:
             nodejs_version: [18, 20]
-            operating_system: [ubuntu-latest, macos-latest]
+            operating_system: [ubuntu-latest]
             exclude:
               - nodejs_version: 18
                 operating_system: macos-latest
@@ -100,7 +100,9 @@ jobs:
 
         - name: Check docker creds
           run: |
-            ls -ld ./.docker && cat ./.docker/config.json
+            echo $HOME
+            pwd
+            ls -ld /home/runner/.docker && cat /home/runner/.docker/config.json
 
         # - name: Docker Build for Testing
         #   uses: docker/build-push-actions@v6.5.0
