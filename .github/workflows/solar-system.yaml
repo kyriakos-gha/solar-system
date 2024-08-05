@@ -99,7 +99,7 @@ jobs:
             password: ${{ secrets.DOCKERHUB_TOKEN}}
 
         - name: Docker Build for Testing
-          uses: docker/build-push-actions@v6.5.0
+          uses: docker/build-push-action@v6.5.0
           with:
             context: .
             push: false
