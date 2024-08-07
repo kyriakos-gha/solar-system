@@ -197,7 +197,23 @@ jobs:
             REPLICAS: ${{ vars.REPLICAS}}
             IMAGE: ${{ vars.DOCKERHUB_USERNAME}}/solar-system:${{ github.sha }}
             # INGRESS_IP: ${{ env.INGRESS_IP }}
+            INGRESS_IP: my-app
 
         - name: Check files
           run: |
             cat kubernetes/development/*.yaml
+
+        - name: Create DB creds secret
+          run: |
+            kubectl -n ${{ vars.NAMESPACE }} create secret generic mongo-db-creds \
+              --from-literal=MONGO_URI=${{ env.MONGO_URI }} \
+              --from-literal=MONGO_USERNAME=${{ vars.MONGO_USERNAME }} \
+              --from-literal=MONGO_PASSWORD=${{ vars.MONGO_PASSWORD }} \
+              --save-config \
+              --dry-run=client \
+              -o yaml
+
+        # - name: Deploy to Den Env
+        #   run: |
+        #     kubectl apply -f kubernetes/development/*.yaml
+          
