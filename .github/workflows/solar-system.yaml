@@ -8,7 +8,7 @@ on:
             - 'feature/*'
 
 env:
-  MONGO_URI: 'mongodb+srv://supercluster.d83jj.mongodb.net/superData'
+  MONGO_URI: ${{ vars.MONGO_URI }}
   MONGO_USERNAME: ${{ vars.MONGO_USERNAME }}
   MONGO_PASSWORD: ${{ secrets.MONGO_PASSWORD }}
 
@@ -166,6 +166,11 @@ jobs:
       secrets: 
         k8s-kubeconfig: ${{ secrets.KUBECONFIG }}
         mongodb-password: ${{ secrets.MONGODB_PASSWORD }}
+      with:
+        mongo_uri: ${{ vars.MONGO_URI }}
+        environment: development
+        kubectl-version: v1.27.0
+        k8s-manifest-dir: ./kubernetes/development/
 
     dev-integration-testing:
       if: contains(github.ref, 'feature/')
@@ -188,6 +193,11 @@ jobs:
       secrets: 
         k8s-kubeconfig: ${{ secrets.KUBECONFIG }}
         mongodb-password: ${{ secrets.MONGODB_PASSWORD }}
+      with:
+        mongo_uri: ${{ vars.MONGO_URI }}
+        environment: production
+        kubectl-version: v1.27.0
+        k8s-manifest-dir: ./kubernetes/production/
       
     prod-integration-testing:
       name: Prod Integration Testing
